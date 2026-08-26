@@ -25,6 +25,33 @@ function pickFieldValue(values: Record<string, string>, candidates: string[]) {
   return "";
 }
 
+// Jenis naskah yang penomorannya TIDAK memakai kode derajat keamanan
+// (mis. "B-", "R-", "SR-"), melainkan langsung dimulai dari nomor urut.
+const DOC_TYPES_WITHOUT_KLASIFIKASI = ["memorandum", "nota-dinas"];
+
+// Kode derajat keamanan yang lazim dipakai di depan nomor Surat Dinas
+// (mis. B-1234/..., R-12/..., SR-3/...). Jika kode ini muncul di awal
+// nomor Memorandum/Nota Dinas, kemungkinan besar itu salah tempel format.
+const KLASIFIKASI_PREFIX_REGEX = /^\s*(SR|R|K|T|B)\s*[-/]/i;
+
+function getNomorKlasifikasiWarning(
+  docTypeId: string | undefined,
+  field: string,
+  value: string
+): string | null {
+  if (!docTypeId || !DOC_TYPES_WITHOUT_KLASIFIKASI.includes(docTypeId)) return null;
+  if (!/nomor/i.test(field)) return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+
+  const match = trimmed.match(KLASIFIKASI_PREFIX_REGEX);
+  if (!match) return null;
+
+  const kode = match[1].toUpperCase();
+  const label = docTypeId === "memorandum" ? "Memorandum" : "Nota Dinas";
+  return `Nomor ${label} sepertinya masih memakai kode derajat keamanan "${kode}-". Sesuai tata naskah dinas, ${label} tidak memakai kode derajat keamanan — penomoran langsung dimulai dari nomor urutnya (contoh: "12/ND-BPS3300/VIII/2026"), bukan "${kode}-...".`;
+}
+
 function triggerBlobDownload(blob: Blob, fileName: string) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -254,15 +281,23 @@ export default function DocTypeFormPage() {
             <p>Template ini tidak memiliki placeholder yang terdeteksi.</p>
           )}
 
-          {config.fields.map((field) => (
-            <div key={field}>
-              <label>{humanizeFieldName(field)}</label>
-              <textarea
-                value={values[field] ?? ""}
-                onChange={(e) => setValues((prev) => ({ ...prev, [field]: e.target.value }))}
-              />
-            </div>
-          ))}
+          {config.fields.map((field) => {
+            const nomorWarning = getNomorKlasifikasiWarning(
+              config.docType,
+              field,
+              values[field] ?? ""
+            );
+            return (
+              <div key={field}>
+                <label>{humanizeFieldName(field)}</label>
+                <textarea
+                  value={values[field] ?? ""}
+                  onChange={(e) => setValues((prev) => ({ ...prev, [field]: e.target.value }))}
+                />
+                {nomorWarning && <p className="field-warning">⚠️ {nomorWarning}</p>}
+              </div>
+            );
+          })}
 
           {config.requiresBasisUpload && (
             <div>
