@@ -1,0 +1,28 @@
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { getTeamById } from "@/lib/teams";
+import { readRekapRows } from "@/lib/googleSheets";
+
+export async function GET() {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const teamId = (session as any).teamId as string;
+  const team = getTeamById(teamId);
+  if (!team) {
+    return NextResponse.json({ error: "Tim tidak ditemukan" }, { status: 403 });
+  }
+
+  try {
+    const rows = await readRekapRows(team.spreadsheetId, team.sheetName);
+    return NextResponse.json({ team: team.name, rows });
+  } catch (err: any) {
+    return NextResponse.json(
+      { error: "Gagal membaca rekap: " + err.message },
+      { status: 500 }
+    );
+  }
+}
