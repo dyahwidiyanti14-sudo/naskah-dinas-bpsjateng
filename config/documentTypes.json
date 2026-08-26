@@ -1,0 +1,27 @@
+[
+  {
+    "id": "memorandum",
+    "label": "Memorandum",
+    "templateFile": "memorandum.docx",
+    "requiresBasisUpload": false
+  },
+  {
+    "id": "nota-dinas",
+    "label": "Nota Dinas",
+    "templateFile": "nota-dinas.docx",
+    "requiresBasisUpload": false
+  },
+  {
+    "id": "surat-tugas",
+    "label": "Surat Tugas",
+    "templateFile": "surat-tugas.docx",
+    "requiresBasisUpload": true,
+    "basisUploadLabel": "Unggah Surat Perintah (dasar pembuatan Surat Tugas)"
+  },
+  {
+    "id": "surat-dinas",
+    "label": "Surat Dinas",
+    "templateFile": "surat-dinas.docx",
+    "requiresBasisUpload": false
+  }
+]

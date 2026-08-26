@@ -1,0 +1,20 @@
+[
+  {
+    "id": "sdm",
+    "name": "Tim SDM",
+    "username": "sdm",
+    "passwordHash": "GANTI_DENGAN_HASIL_HASH_BCRYPT",
+    "driveFolderId": "ID_FOLDER_GDRIVE_TIM_SDM",
+    "spreadsheetId": "ID_SPREADSHEET_REKAP_TIM_SDM",
+    "sheetName": "Rekap"
+  },
+  {
+    "id": "keuangan",
+    "name": "Tim Keuangan",
+    "username": "keuangan",
+    "passwordHash": "GANTI_DENGAN_HASIL_HASH_BCRYPT",
+    "driveFolderId": "ID_FOLDER_GDRIVE_TIM_KEUANGAN",
+    "spreadsheetId": "ID_SPREADSHEET_REKAP_TIM_KEUANGAN",
+    "sheetName": "Rekap"
+  }
+]
