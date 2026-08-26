@@ -1,0 +1,43 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { getDocumentType, getTemplatePath } from "@/lib/documentTypes";
+import { extractPlaceholdersFromFile } from "@/lib/docxTemplate";
+
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { docType: string } }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const docType = getDocumentType(params.docType);
+  if (!docType) {
+    return NextResponse.json({ error: "Jenis naskah tidak ditemukan" }, { status: 404 });
+  }
+
+  try {
+    const templatePath = getTemplatePath(docType.templateFile);
+    const fields = extractPlaceholdersFromFile(templatePath);
+    return NextResponse.json({
+      docType: docType.id,
+      label: docType.label,
+      requiresBasisUpload: docType.requiresBasisUpload,
+      basisUploadLabel: docType.basisUploadLabel ?? null,
+      fields,
+    });
+  } catch (err: any) {
+    return NextResponse.json(
+      {
+        error:
+          "Gagal membaca template. Pastikan file " +
+          docType.templateFile +
+          " ada di folder /templates. Detail: " +
+          err.message,
+      },
+      { status: 500 }
+    );
+  }
+}
