@@ -2,19 +2,19 @@
   {
     "id": "sdm",
     "name": "Tim SDM",
-    "username": "sdm",
-    "passwordHash": "GANTI_DENGAN_HASIL_HASH_BCRYPT",
-    "driveFolderId": "ID_FOLDER_GDRIVE_TIM_SDM",
-    "spreadsheetId": "ID_SPREADSHEET_REKAP_TIM_SDM",
+    "username": "SDM3300",
+    "passwordHash": "$2b$10$RqZ9BILWSUE9vOJCeMnVKe50SK55HqjbaW7G.BNllUYcOU.k1RtGS",
+    "driveFolderId": "1WNpBo91jBE6f00QrwsaaLE_wZQ1kpgt8",
+    "spreadsheetId": "1wu7sP-zW9nfL9wHXTP1Ak6bCgejKFLxqgmxKJ3t5UQ4",
     "sheetName": "Rekap"
   },
   {
-    "id": "keuangan",
-    "name": "Tim Keuangan",
-    "username": "keuangan",
-    "passwordHash": "GANTI_DENGAN_HASIL_HASH_BCRYPT",
-    "driveFolderId": "ID_FOLDER_GDRIVE_TIM_KEUANGAN",
-    "spreadsheetId": "ID_SPREADSHEET_REKAP_TIM_KEUANGAN",
+    "id": "umum",
+    "name": "Tim Umum",
+    "username": "UMUM3300",
+    "passwordHash": "$2b$10$TZN53wzKVwY0Ane.eEh2dOP4E.z/NbiFEuao5./EkfYnqN0.qqttu",
+    "driveFolderId": "1Vd9Dt2N83Wjm3Uhgpg5RQ4OQ3psoZL3K",
+    "spreadsheetId": "1ck1oPoUYlXGaMScRTMhFI9kkbiV_MpMdfP0FdH35IFk",
     "sheetName": "Rekap"
   }
 ]
